@@ -7,8 +7,7 @@ import (
 	"time"
 )
 
-func ProcessingMeat(ep Emploee, meatChannel chan Meat) {
-	ep.Meat = <-meatChannel
+func ProcessingMeat(ep Emploee) {
 	m := ep.Meat
 	fmt.Printf("%s 在 %s 取得%s\n", ep.Id, time.Now().Format(time.DateTime), m.Name)
 
@@ -18,30 +17,41 @@ func ProcessingMeat(ep Emploee, meatChannel chan Meat) {
 	fmt.Printf("%s 在 %s 處理完%s\n", ep.Id, time.Now().Format(time.DateTime), m.Name)
 }
 
-func TestProcessingMeats(t *testing.T) {
-	meats := []Meat{
-		{
-			Id:                    "beef-1",
-			Name:                  "牛肉",
-			ProcessingTimeSeconds: 1,
-		},
-		{
-			Id:                    "pork-1",
-			Name:                  "豬肉",
-			ProcessingTimeSeconds: 2,
-		},
+type Work struct {
+	Emploee
+	meatChannel chan Meat
+	wg          *sync.WaitGroup
+}
+
+func NewWork(emploee Emploee, meatChannel chan Meat, wg *sync.WaitGroup) Work {
+	return Work{
+		Emploee:     emploee,
+		meatChannel: meatChannel,
+		wg:          wg,
 	}
+}
+
+func (w Work) ProcessingMeats(count int) {
+	for i := 0; i < count; i++ {
+		w.Emploee.Meat = <-w.meatChannel
+		ProcessingMeat(w.Emploee)
+		w.wg.Done()
+	}
+}
+
+func TestProcessingMeats(t *testing.T) {
+	meats := GetRawMeat(1, 1, 1)
 
 	var wg sync.WaitGroup
 	wg.Add(len(meats))
 
 	meatChannel := make(chan Meat, len(meats))
-
 	for i := 0; i < len(meats); i++ {
 		meatChannel <- meats[i]
-		ProcessingMeat(Emploee{Id: "A"}, meatChannel)
-		wg.Done()
 	}
+
+	work := NewWork(Emploee{Id: "A"}, meatChannel, &wg)
+	go work.ProcessingMeats(len(meats))
 
 	wg.Wait()
 }

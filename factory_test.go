@@ -3,7 +3,7 @@ package main
 import "testing"
 
 func TestGetRawMeat(t *testing.T) {
-	meats := GetRawMeat()
+	meats := GetRawMeat(10, 7, 5)
 
 	beefCounts, porkCounts, chickenCounts := 0, 0, 0
 	for _, meat := range meats {

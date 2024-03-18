@@ -2,10 +2,10 @@ package main
 
 import "fmt"
 
-func GetRawMeat() (meats []Meat) {
+func GetRawMeat(beefCounts int, porkCounts int, chickenCounts int) (meats []Meat) {
 	var beafs, porks, chickens []Meat
 
-	for i := 0; i < 10; i++ {
+	for i := 0; i < beefCounts; i++ {
 		beaf := Meat{
 			Id:                    fmt.Sprintf("beaf-%d", i),
 			Name:                  "牛肉",
@@ -14,7 +14,7 @@ func GetRawMeat() (meats []Meat) {
 		beafs = append(beafs, beaf)
 	}
 
-	for i := 0; i < 7; i++ {
+	for i := 0; i < porkCounts; i++ {
 		pork := Meat{
 			Id:                    fmt.Sprintf("pork-%d", i),
 			Name:                  "豬肉",
@@ -23,7 +23,7 @@ func GetRawMeat() (meats []Meat) {
 		porks = append(porks, pork)
 	}
 
-	for i := 0; i < 5; i++ {
+	for i := 0; i < chickenCounts; i++ {
 		chicken := Meat{
 			Id:                    fmt.Sprintf("chicken-%d", i),
 			Name:                  "雞肉",
