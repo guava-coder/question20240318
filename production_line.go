@@ -51,7 +51,7 @@ func ProductionLine(emploees []Emploee, meats []Meat) {
 	var wg sync.WaitGroup
 	wg.Add(len(meats))
 
-	// 存放肉的 channel
+	// 存放所有肉的 channel
 	meatChannel := make(chan Meat, len(meats))
 	for i := 0; i < len(meats); i++ {
 		meatChannel <- meats[i]
