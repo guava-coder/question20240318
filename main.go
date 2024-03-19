@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 func main() {
-	fmt.Println("Hello, World!")
+	ProductionLine(GetRawMeat(10, 7, 5))
 }

@@ -2,6 +2,12 @@ package main
 
 import "fmt"
 
+// 獲得未處理的肉
+//
+// beefCounts: 牛肉的數量
+// porkCounts: 豬肉的數量
+// chickenCounts: 雞肉的數量
+// []Meat: The generated slice of Meat objects.
 func GetRawMeat(beefCounts int, porkCounts int, chickenCounts int) (meats []Meat) {
 	var beafs, porks, chickens []Meat
 
