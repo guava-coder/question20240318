@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-// 輸出員工處理肉的資訊
+//	員工處理肉，並輸出處理的資訊
 //
 // ep Emploee
 func processingMeat(ep Emploee) {
@@ -44,31 +44,30 @@ func (w Work) ProcessingMeats(count int) {
 	}
 }
 
-// 處理肉的產線，有五位獨立作業的員工
+// 處理肉的產線，由獨立作業的員工各自處理
 // Parameter meats is a slice of Meat struct.
-func ProductionLine(meats []Meat) {
+func ProductionLine(emploees []Emploee, meats []Meat) {
+	// 根據肉的數量設定等待次數
 	var wg sync.WaitGroup
 	wg.Add(len(meats))
 
+	// 存放肉的 channel
 	meatChannel := make(chan Meat, len(meats))
 	for i := 0; i < len(meats); i++ {
 		meatChannel <- meats[i]
 	}
 
-	workA := NewWork(Emploee{Id: "A"}, meatChannel, &wg)
-	go workA.ProcessingMeats(len(meats))
+	// 根據員工數量產生工作
+	works := make([]Work, 0)
+	for i := 0; i < len(emploees); i++ {
+		works = append(works, NewWork(emploees[i], meatChannel, &wg))
+	}
 
-	workB := NewWork(Emploee{Id: "B"}, meatChannel, &wg)
-	go workB.ProcessingMeats(len(meats))
+	// 開始處理肉
+	for i := 0; i < len(works); i++ {
+		go works[i].ProcessingMeats(len(meats))
+	}
 
-	workC := NewWork(Emploee{Id: "C"}, meatChannel, &wg)
-	go workC.ProcessingMeats(len(meats))
-
-	workD := NewWork(Emploee{Id: "D"}, meatChannel, &wg)
-	go workD.ProcessingMeats(len(meats))
-
-	workE := NewWork(Emploee{Id: "E"}, meatChannel, &wg)
-	go workE.ProcessingMeats(len(meats))
-
+	// 等待所有肉都處理完
 	wg.Wait()
 }

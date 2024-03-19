@@ -1,5 +1,5 @@
 package main
 
 func main() {
-	ProductionLine(GetRawMeat(10, 7, 5))
+	ProductionLine(GetEmploees(), GetRawMeat(10, 7, 5))
 }

@@ -45,6 +45,9 @@ func GetRawMeat(beefCounts int, porkCounts int, chickenCounts int) (meats []Meat
 	return
 }
 
+// 取得五位員工
+//
+// Returns []Emploee.
 func GetEmploees() []Emploee {
 	ids := []string{
 		"A", "B", "C", "D", "E",

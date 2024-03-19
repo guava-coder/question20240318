@@ -25,3 +25,7 @@ func TestProcessingMeats(t *testing.T) {
 
 	wg.Wait()
 }
+
+func TestProductionLine(t *testing.T) {
+	ProductionLine(GetEmploees(), GetRawMeat(5, 3, 1))
+}
