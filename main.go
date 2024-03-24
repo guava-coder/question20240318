@@ -1,5 +1,6 @@
 package main
 
 func main() {
-	ProductionLine(GetEmploees(), GetRawMeat(10, 7, 5))
+	ProductionLine(GetEmploees([]string{"A", "B", "C", "D", "E"}), GetRawMeat(10, 7, 5))
+
 }

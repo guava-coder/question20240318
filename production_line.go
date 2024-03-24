@@ -63,7 +63,7 @@ func ProductionLine(emploees []Emploee, meats []Meat) {
 		works = append(works, NewWork(emploees[i], meatChannel, &wg))
 	}
 
-	// 開始處理肉
+	// 員工開始處理肉
 	for i := 0; i < len(works); i++ {
 		go works[i].ProcessingMeats(len(meats))
 	}
